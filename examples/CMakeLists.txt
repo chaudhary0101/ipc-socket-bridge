@@ -1,0 +1,8 @@
+add_executable(basic_bridge basic_bridge.cpp)
+target_link_libraries(basic_bridge PRIVATE bridge_core)
+
+add_executable(ipc_client_sender ipc_client_sender.cpp)
+target_link_libraries(ipc_client_sender PRIVATE bridge_core)
+
+add_executable(tcp_client_receiver tcp_client_receiver.cpp)
+target_link_libraries(tcp_client_receiver PRIVATE bridge_core)
