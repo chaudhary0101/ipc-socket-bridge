@@ -167,6 +167,4 @@ Suggested topics:
 
 `cpp17`, `linux`, `unix-sockets`, `tcp-ip`, `epoll`, `ipc`, `posix`, `multithreading`, `cmake`, `gtest`, `embedded-linux`, `automotive`, `systems-programming`
 
-LinkedIn portfolio summary:
 
-Built `ipc-socket-bridge`, a C++17/Linux system software project that routes framed messages between UNIX domain sockets, named pipes, and TCP clients using non-blocking `epoll`, thread-safe queues, graceful POSIX signal handling, runtime metrics, GTest coverage, and GitHub Actions CI. The project reflects production-style automotive infotainment communication patterns similar to HVAC control and diagnostics modules.
