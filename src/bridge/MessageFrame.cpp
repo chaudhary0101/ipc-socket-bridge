@@ -1,11 +1,8 @@
-#include "bridge/MessageFrame.hpp"
-
+﻿#include "bridge/MessageFrame.hpp"
 #include <algorithm>
 #include <arpa/inet.h>
 #include <cstring>
-
 namespace bridge {
-
 std::vector<uint8_t> MessageFrame::serialize() const {
     std::vector<uint8_t> bytes(HeaderSize + payload.size());
     const uint32_t magic = htonl(Magic);
@@ -18,10 +15,9 @@ std::vector<uint8_t> MessageFrame::serialize() const {
     bytes[7] = static_cast<uint8_t>(destination);
     std::memcpy(bytes.data() + 8, &seq, 4);
     std::memcpy(bytes.data() + 12, &size, 4);
-    std::copy(payload.begin(), payload.end(), bytes.begin() + HeaderSize);
+    std::copy(payload.begin(), payload.end(), bytes.begin() + static_cast<long>(HeaderSize));
     return bytes;
 }
-
 MessageFrame MessageFrame::deserialize(const std::vector<uint8_t>& bytes, std::size_t max_payload) {
     if (bytes.size() < HeaderSize) {
         throw std::runtime_error("frame too small");
@@ -48,10 +44,9 @@ MessageFrame MessageFrame::deserialize(const std::vector<uint8_t>& bytes, std::s
     frame.source = static_cast<EndpointKind>(bytes[6]);
     frame.destination = static_cast<EndpointKind>(bytes[7]);
     frame.sequence = seq;
-    frame.payload.assign(bytes.begin() + HeaderSize, bytes.end());
+    frame.payload.assign(bytes.begin() + static_cast<long>(HeaderSize), bytes.end());
     return frame;
 }
-
 bool MessageFrame::try_extract(std::vector<uint8_t>& buffer, std::size_t max_payload, MessageFrame& out) {
     if (buffer.size() < HeaderSize) {
         return false;
@@ -66,14 +61,12 @@ bool MessageFrame::try_extract(std::vector<uint8_t>& buffer, std::size_t max_pay
     if (buffer.size() < total) {
         return false;
     }
-    std::vector<uint8_t> frame_bytes(buffer.begin(), buffer.begin() + total);
+    std::vector<uint8_t> frame_bytes(buffer.begin(), buffer.begin() + static_cast<long>(total));
     out = deserialize(frame_bytes, max_payload);
-    buffer.erase(buffer.begin(), buffer.begin() + total);
+    buffer.erase(buffer.begin(), buffer.begin() + static_cast<long>(total));
     return true;
 }
-
 std::string MessageFrame::payload_as_string() const {
     return std::string(payload.begin(), payload.end());
 }
-
 } // namespace bridge
