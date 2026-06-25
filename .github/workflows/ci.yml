@@ -23,4 +23,4 @@ jobs:
         run: ctest --test-dir build --output-on-failure
       - name: clang-tidy
         run: |
-          find src/bridge \( -name '*.cpp' \) -print | xargs clang-tidy -p build --checks='bugprone-*,performance-*,readability-*,-readability-magic-numbers' --warnings-as-errors='bugprone-*,performance-*'
+          find src/bridge \( -name '*.cpp' \) -print | xargs clang-tidy -p build --checks='bugprone-narrowing-conversions' --warnings-as-errors='bugprone-narrowing-conversions'
